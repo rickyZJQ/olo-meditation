@@ -70,21 +70,14 @@
         }
     }
 
-    // ========== 加载音乐列表 ==========
-    async function loadMusicList() {
-        try {
-            const resp = await fetch('api/music.php?action=list');
-            const json = await resp.json();
-
-            if (json.code === 0 && json.data.length > 0) {
-                state.allMusic = json.data;
-                switchGroup('front');
-            } else {
-                dom.loading.innerHTML = '<p>暂无冥想音乐</p>';
-            }
-        } catch (err) {
-            console.error('加载音乐列表失败:', err);
-            dom.loading.innerHTML = '<p>加载失败，请刷新重试</p>';
+    // ========== 加载音乐列表（静态版：直接读取内嵌数据） ==========
+    function loadMusicList() {
+        // 使用HTML中内嵌的 MEDITATION_DATA
+        if (typeof MEDITATION_DATA !== 'undefined' && MEDITATION_DATA.length > 0) {
+            state.allMusic = MEDITATION_DATA;
+            switchGroup('front');
+        } else {
+            dom.loading.innerHTML = '<p>暂无冥想音乐</p>';
         }
     }
 
